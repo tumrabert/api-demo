@@ -1,16 +1,16 @@
-const express = require('express');
-const { createHospital,getHospital,getHospitals,updateHospital,deleteHospital} = require('../controllers/hospitals');
+const express = require("express");
+const {
+  createHospital,
+  getHospital,
+  getHospitals,
+  updateHospital,
+  deleteHospital,
+} = require("../controllers/hospitals");
 const router = express.Router();
+const { protect,authorization } = require("../middleware/auth");
 
-// POST /api/v1/hospitals
-/* router.get('/:id', getHospital);
-router.get('/', getHospitals);
-router.post('/', createHospital);
 
-router.delete('/:id', updateHospital);
-router.put('/:id', deleteHospital); */
-
-router.route('/').get(getHospitals).post(createHospital);
-router.route('/:id').get(getHospital).delete(deleteHospital).put(updateHospital)
+router.route("/").get(getHospitals).post(protect,authorization('admin') ,createHospital);
+router.route("/:id").get(getHospital).delete(protect,authorization('admin'), deleteHospital).put(protect,authorization('admin'), updateHospital);
 
 module.exports = router;
