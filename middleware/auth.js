@@ -13,10 +13,10 @@ exports.protect = async (req, res, next) => {
   }
 
   //Make sure token exists
-  if (!token) {
+  if (!token || token == "null") {
     return res.status(401).json({
       success: false,
-      message: "Not authorized to access this route1",
+      message: "Not authorized to access this route",
     });
   }
 
@@ -39,12 +39,10 @@ exports.protect = async (req, res, next) => {
 exports.authorization = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
-      return res
-        .status(403)
-        .json({
-          success: false,
-          message: `User role ${req.user.role} is not authorized to access this route`,
-        });
+      return res.status(403).json({
+        success: false,
+        message: `User role ${req.user.role} is not authorized to access this route`,
+      });
     }
     next();
   };
