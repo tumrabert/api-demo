@@ -35,16 +35,15 @@ const swaggerOptions = {
 const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //Route files
-const hospitals = require("./routes/hospitals");
 const auth = require("./routes/auth");
-//const hospitals = require('./controllers/hospitals')
+const campground = require("./routes/campgrounds")
 const app = express();
 
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 //Rate Limiting
 const limiter = rateLimit({
   windowsMs: 10 * 60 * 1000, //10 mins
-  max: 100,
+  max: 500,
 });
 app.use(limiter);
 //Prevent http param pollutions
@@ -58,8 +57,8 @@ app.use(mongoSanitize());
 app.use(xss());
 //Enable CORS
 app.use(cors());
-app.use("/api/v1/hospitals", hospitals);
 app.use("/api/v1/auth", auth);
+app.use("/api/v1/campground", campground);
 app.use(cookieParser);
 
 const PORT = process.env.PORT || 5000;
