@@ -1,8 +1,8 @@
 const Campground = require("../models/Campground")
 
 
-getCampgrounds = (req, res, next) => {
-	Campground.getAll((err, data) => {
+let getAllCampgrounds = (req, res, next) => {
+	Campground.getAllCampgrounds((err, data) => {
 		if (err)
 			res.status(500).send({
 				message:
@@ -13,4 +13,19 @@ getCampgrounds = (req, res, next) => {
 	});
 };
 
-module.exports = getCampgrounds;
+let getCampground = (req, res, next) => {
+	Campground.getCampground(req.params.id, res);
+};
+let createCampground = (req, res, next) => {
+	Campground.createCampground(req.body, res);
+};
+
+let updateCampground = (req, res, next) => {
+	Campground.updateCampground(req.params.id, req.body, res);
+};
+
+let deleteCampground = (req, res, next) => {
+	Campground.deleteCampground(req.params.id, res);
+};
+
+module.exports = { getAllCampgrounds, createCampground, deleteCampground, updateCampground, getCampground };
