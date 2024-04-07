@@ -9,7 +9,9 @@ const rateLimit = require("express-rate-limit");
 const hpp = require("hpp");
 const cors = require("cors");
 const swaggerJsDoc = require("swagger-jsdoc");
-const swaggerUI = require("swagger-ui-express");
+const swaggerUi = require('swagger-ui-express');
+const YAML = require('yamljs');
+const swaggerDocument = YAML.load('./swagger.yaml');
 //Load env vars
 dotenv.config({ path: "./config/config.env" });
 
@@ -32,14 +34,14 @@ const swaggerOptions = {
   },
   apis: ["./routes/*.js"],
 };
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
+//const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //Route files
 const auth = require("./routes/auth");
 const campground = require("./routes/campgrounds")
 const app = express();
-
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+//app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
 //Rate Limiting
 const limiter = rateLimit({
   windowsMs: 10 * 60 * 1000, //10 mins
