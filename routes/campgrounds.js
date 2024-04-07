@@ -1,7 +1,6 @@
 const express = require("express");
-const getCampgrounds = require("../controllers/campgrounds");
+const { getCampgrounds, createCampground } = require("../controllers/campgrounds");
 const router = express.Router({ mergeParams: true });
-const { protect } = require("../middleware/auth");
-router.route("/").get(protect, getCampgrounds);
-
+const { protect, authorization } = require("../middleware/auth");
+router.route("/").get(protect, getCampgrounds).post(protect, authorization("admin"), createCampground);
 module.exports = router;

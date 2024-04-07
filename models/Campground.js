@@ -19,4 +19,23 @@ Campground.getAll = (result) => {
   });
 };
 
+
+Campground.createCampground = (campgroundObject, result) => {
+  let query = `INSERT INTO campgrounds (name, address, telephone_number) VALUES (?, ?, ?);`;
+  let name = campgroundObject.name;
+  let address = campgroundObject.address;
+  let telephone_number = campgroundObject.telephone_number;
+
+  sql.query(query, [name, address, telephone_number], (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(err, null);
+      return;
+    }
+    console.log("Campground: ", res);
+    result(null, res);
+  });
+};
+
+
 module.exports = Campground;

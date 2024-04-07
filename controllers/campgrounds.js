@@ -13,4 +13,23 @@ getCampgrounds = (req, res, next) => {
 	});
 };
 
-module.exports = getCampgrounds;
+
+createCampground = (req, res, next) => {
+	Campground.createCampground(req.body, (err, data) => {
+		if (err)
+			res.status(500).send({
+				message:
+					err.message ||
+					"Some error occurred while creating a campground.",
+			});
+		else res.status(201).json({
+			success: true,
+		});
+	});
+};
+
+
+
+
+
+module.exports = { getCampgrounds, createCampground };

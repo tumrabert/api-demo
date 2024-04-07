@@ -5,7 +5,7 @@ CREATE TABLE campgrounds (
   id INT AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(50),
   address VARCHAR(100),
-  telephone_number VARCHAR(100)
+  telephone_number VARCHAR(100),
 );
 
 
