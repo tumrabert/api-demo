@@ -15,7 +15,8 @@
     "mongoose": "^8.1.1",
     "mysql": "^2.18.1",
     "swagger-jsdoc": "^6.0.0",
-    "swagger-ui-express": "^5.0.0"
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0"
   },
   "scripts": {
     "dev": "nodemon server.js",

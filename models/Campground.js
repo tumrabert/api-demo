@@ -24,7 +24,7 @@ Campground.getCampground = (id, res) => {
     if (!err) {
       res.status(200).json({ success: true, data: data });
     } else {
-      res.status(401).json({ success: false, message: "Error when updating campgrounds infos." });
+      res.status(500).json({ success: false, message: "Error when updating campgrounds infos." });
     }
   });
 };
@@ -37,9 +37,9 @@ Campground.createCampground = (campgroundObject, res) => {
 
   sql.query(query, [name, address, telephone_number], (err, data) => {
     if (!err) {
-      res.status(200).json({ success: true, data: data });
+      res.status(201).json({ success: true, data: campgroundObject });
     } else {
-      res.status(401).json({ success: false, message: "Error when updating campgrounds infos." });
+      res.status(500).json({ success: false, message: "Error when updating campgrounds infos." });
     }
   });
 };
@@ -60,9 +60,9 @@ Campground.updateCampground = (id, campgroundObject, res) => {
   const query = `UPDATE campgrounds SET ${updates.join(", ")} WHERE id = ${id}`;
   sql.query(query, (err, result) => {
     if (!err) {
-      res.status(200).json({ success: true, message: "Campgrounds infos updated." });
+      res.status(201).json({ success: true, message: "Campgrounds infos updated." });
     } else {
-      res.status(401).json({ success: false, message: "Error when updating campgrounds infos." });
+      res.status(500).json({ success: false, message: "Error when updating campgrounds infos." });
     }
   });
 
@@ -78,7 +78,7 @@ Campground.deleteCampground = (id, res) => {
     if (!err) {
       res.status(202).json({ success: true, message: "Campground deleted" });
     } else {
-      res.status(401).json({ success: false, message: "Error when deleting campgrounds" });
+      res.status(500).json({ success: false, message: "Error when deleting campgrounds" });
     }
   });
 
