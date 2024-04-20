@@ -1,10 +1,18 @@
-swagger: '2.0'
+openapi: "3.0.0"
 info:
   version: 1.0.0
-  title: Bookings API
+  title: Bookings, Campground API
+servers:
+  - url: "http://localhost:5000/api/v1"
+
+security:
+  - userToken: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTJjZGEyYzkxMTJiYzgzMTc0YjFiMiIsImlhdCI6MTcxMjUwODMyMiwiZXhwIjoxNzE1MTAwMzIyfQ.eY_tf5w7IORKL2j4a97Kv0SD9CxlRBGHPB8mlBFXhsE"]
+  - adminToken: [""]
 tags:
   - name: Bookings
     description: The Bookings managing API
+  - name: Campground
+    description: The Campground managing API
 paths:
   /bookings:
     get:
@@ -12,15 +20,15 @@ paths:
         - Bookings
       summary: Get all bookings for a user
       responses:
-        '200':
+        "200":
           description: A list of bookings
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Booking'
-        '500':
+                  $ref: "#/components/schemas/Booking"
+        "500":
           description: Server error
     post:
       tags:
@@ -31,15 +39,15 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Booking'
+              $ref: "#/components/schemas/Booking"
       responses:
-        '201':
+        "201":
           description: Booking created
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'
-        '500':
+                $ref: "#/components/schemas/Booking"
+        "500":
           description: Server error
   /bookings/{id}:
     get:
@@ -54,15 +62,15 @@ paths:
           schema:
             type: string
       responses:
-        '200':
+        "200":
           description: The Booking description by id
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'
-        '404':
+                $ref: "#/components/schemas/Booking"
+        "404":
           description: Booking not found
-        '500':
+        "500":
           description: Server error
     put:
       tags:
@@ -80,17 +88,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Booking'
+              $ref: "#/components/schemas/Booking"
       responses:
-        '200':
+        "200":
           description: Booking updated
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Booking'
-        '404':
+                $ref: "#/components/schemas/Booking"
+        "404":
           description: Booking not found
-        '500':
+        "500":
           description: Server error
     delete:
       tags:
@@ -104,42 +112,142 @@ paths:
           required: true
           description: The booking id
       responses:
-        '200':
+        "200":
           description: Booking deleted
-        '404':
+        "404":
           description: Booking not found
-        '500':
+        "500":
           description: Server error
   /bookings/admin:
     get:
       summary: Get all bookings for an admin
       responses:
-        '200':
+        "200":
           description: A list of bookings
           schema:
             type: array
             items:
-              $ref: '#/components/schemas/Booking'
-        '500':
+              $ref: "#/components/schemas/Booking"
+        "500":
           description: Server error
     put:
       summary: Update any booking
       responses:
-        '200':
+        "200":
           description: Booking updated
           schema:
-            $ref: '#/components/schemas/Booking'
-        '500':
+            $ref: "#/components/schemas/Booking"
+        "500":
           description: Server error
     delete:
       summary: Delete any booking
       responses:
-        '200':
+        "200":
           description: Booking deleted
-        '500':
+        "500":
           description: Server error
+  /campground:
+    get:
+      tags:
+        - Campground
+      summary: Get all campgrounds
+      responses:
+        "200":
+          $ref: "#/components/responses/ListOfCampgroundsResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerResponse"
+    post:
+      tags:
+        - Campground
+      summary: Create a new campground
+      responses:
+        "201":
+          $ref: "#/components/responses/SingleCampgroundResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerResponse"
+        "401":
+          $ref: "#/components/responses/OnlyRegisteredResponse"
+        "403":
+          $ref: "#/components/responses/OnlyAdminResponse"
+  /campground/{id}:
+    get:
+      summary: Get a campground by ID
+      tags:
+        - Campground
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the campground to retrieve
+          schema:
+            type: integer
+      responses:
+        "200":
+          $ref: "#/components/responses/SingleCampgroundResponse"
+        "401":
+          $ref: "#/components/responses/OnlyRegisteredResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerResponse"
+    put:
+      tags:
+        - Campground
+      summary: Update a campground by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the campground to update
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Campground"
+      responses:
+        "400":
+          description: No update provided.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: false
+                  message:
+                    type: string
+        "201":
+          $ref: "#/components/responses/SingleCampgroundResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerResponse"
+        "401":
+          $ref: "#/components/responses/OnlyRegisteredResponse"
+        "403":
+          $ref: "#/components/responses/OnlyAdminResponse"
+    delete:
+      tags:
+        - Campground
+      summary: Delete a campground by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the campground to delete
+          schema:
+            type: integer
+      responses:
+        "202":
+          $ref: "#/components/responses/SingleCampgroundResponse"
+        "500":
+          $ref: "#/components/responses/InternalServerResponse"
+        "401":
+          $ref: "#/components/responses/OnlyRegisteredResponse"
+        "403":
+          $ref: "#/components/responses/OnlyAdminResponse"
 components:
-  schemas: 
+  schemas:
     Booking:
       type: object
       properties:
@@ -156,9 +264,96 @@ components:
           type: string
           format: date-time
       example:
-        apptDate: ['2020-01-01T00:00:00Z','2020-01-03T00:00:00Z']
-        user: 'user1'
-        campground: 'campground1'
-        createAt: '2020-01-01T00:00:00Z'
+        apptDate: ["2020-01-01T00:00:00Z", "2020-01-03T00:00:00Z"]
+        user: "user1"
+        campground: "campground1"
+        createAt: "2020-01-01T00:00:00Z"
 
-  
+    Campground:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Unique identifier for the campground
+        name:
+          type: string
+          description: Name of the campground
+        address:
+          type: string
+          description: Address of the campground
+        telephone_number:
+          type: string
+          description: Telephone number of the campground
+
+  responses:
+    ListOfCampgroundsResponse:
+      description: Successful response
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              data:
+                type: array
+                items:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/Campground"
+    SingleCampgroundResponse:
+      description: Successful response. Return a campground as the response.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: true
+              data:
+                type: object
+                $ref: "#/components/schemas/Campground"
+    OnlyRegisteredResponse:
+      description: Unauthorized. Only registered users are able to execute this endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+    OnlyAdminResponse:
+      description: Unauthorized. Only admin users are able to execute this endpoint.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+    InternalServerResponse:
+      description: Internal server error.
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              message:
+                type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

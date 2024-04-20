@@ -34,7 +34,7 @@ const swaggerOptions = {
   },
   apis: ["./routes/*.js"],
 };
-//const swaggerDocs = swaggerJsDoc(swaggerOptions);
+// const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 //Route files
 const auth = require("./routes/auth");

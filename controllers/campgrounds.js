@@ -8,6 +8,7 @@ let getAllCampgrounds = (req, res, next) => {
 				message:
 					err.message ||
 					"Some error occurred while retrieving Campgrounds.",
+				success: false
 			});
 		else res.send(data);
 	});
