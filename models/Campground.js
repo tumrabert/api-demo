@@ -24,7 +24,7 @@ Campground.getCampground = (id, res) => {
     if (!err) {
       res.status(200).json({ success: true, data: data });
     } else {
-      res.status(401).json({ success: false, message: "Error when updating campgrounds infos." });
+      res.status(401).json({ success: false, message: "Error when get campgrounds infos." });
     }
   });
 };
@@ -39,7 +39,7 @@ Campground.createCampground = (campgroundObject, res) => {
     if (!err) {
       res.status(200).json({ success: true, data: data });
     } else {
-      res.status(401).json({ success: false, message: "Error when updating campgrounds infos." });
+      res.status(401).json({ success: false, message: "Error when create campgrounds infos." });
     }
   });
 };
