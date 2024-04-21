@@ -1,7 +1,7 @@
 openapi: "3.0.0"
 info:
-  version: 1.0.0
-  title: Bookings, Campground API
+  version: 2.0.0
+  title: API for campground booking system.
 servers:
   - url: "http://localhost:5000/api/v1"
 
@@ -12,6 +12,8 @@ security:
       ]
   - adminToken: [""]
 tags:
+  - name: Authentication
+    description: The Authentication managing API
   - name: Bookings
     description: The Bookings managing API
   - name: Campground
@@ -161,7 +163,8 @@ paths:
           $ref: "#/components/responses/InternalServerResponse"
     post:
       security:
-        - adminToken: []
+      - adminToken: []
+      - userToken: []
       tags:
         - Campground
       summary: Create a new campground
@@ -265,6 +268,101 @@ paths:
           $ref: "#/components/responses/OnlyRegisteredResponse"
         "403":
           $ref: "#/components/responses/OnlyAdminResponse"
+  /auth/register:
+    post:
+      tags:
+        - Authentication
+      summary: Register User
+      description: Register a new user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: "User's Name"
+                email: "user@example.com"
+                password: "password123"
+                role: "user"
+                phone: "0803911438"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          description: JSON TYPE
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      description: Log in with registered credentials to obtain an access token.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                email: "user@example.com"
+                password: "password123"
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          description: JSON TYPE
+          example: application/json
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/me:
+    get:
+      tags:
+          - Authentication
+      summary: Get User Details
+      description: Retrieve details of the currently authenticated user.
+      security:
+        - adminToken: []
+        - userToken: []
+      parameters:
+        - name: Content-Type
+          in: header
+          schema:
+            type: string
+          description: JSON TYPE
+          example: application/json
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: "Bearer <access_token>"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /auth/logout:
+    get:
+      tags:
+        - Authentication
+      summary: Logout
+      description: Logout the currently authenticated user.
+      security:
+        - adminToken: []
+        - userToken: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
 components:
   schemas:
     Booking:
