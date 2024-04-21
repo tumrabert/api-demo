@@ -1,8 +1,8 @@
 const express = require("express");
-const { getBookings,getBooking, deleteBooking, updateBooking } = require("../controllers/bookings");
+const { getBookings,getBooking, deleteBooking, updateBooking,createBooking } = require("../controllers/bookings");
 const router = express.Router({ mergeParams: true });
-const { protect } = require("../middleware/auth");
-// router.route("/").get(protect,authorization('admin'), getBookings).delete(protect,authorization('admin'), deleteBooking).put(protect,authorization('admin'), updateBooking);
+const { protect,authorization } = require("../middleware/auth");
+//router.route("/").get(protect,authorization('admin'), getBookings).delete(protect,authorization('admin'), deleteBooking).put(protect,authorization('admin'), updateBooking);
 // router.route("/:id").get(protect,getBooking).delete(protect, deleteBooking).put(protect, updateBooking);
 
 // Routes for users

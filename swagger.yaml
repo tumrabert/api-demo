@@ -7,7 +7,7 @@ servers:
 
 security:
   - userToken: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTJjZGEyYzkxMTJiYzgzMTc0YjFiMiIsImlhdCI6MTcxMjUwODMyMiwiZXhwIjoxNzE1MTAwMzIyfQ.eY_tf5w7IORKL2j4a97Kv0SD9CxlRBGHPB8mlBFXhsE"]
-  - adminToken: [""]
+  - adminToken: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjNmMzc0M2JjNTkzZjk5NDVjMzM2ZiIsImlhdCI6MTcxMzYzMjExNywiZXhwIjoxNzE2MjI0MTE3fQ.CFeHDnuq3uOVrFICSygh_8dGR_Ujr0sx6xdcvG-Curo"]
 tags:
   - name: Bookings
     description: The Bookings managing API

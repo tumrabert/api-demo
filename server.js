@@ -61,6 +61,8 @@ app.use(xss());
 app.use(cors());
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/campground", campground);
+const booking = require("./routes/bookings")
+app.use("/api/v1/bookings", booking);
 app.use(cookieParser);
 
 const PORT = process.env.PORT || 5000;
