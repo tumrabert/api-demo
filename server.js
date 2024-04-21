@@ -39,6 +39,7 @@ const swaggerOptions = {
 //Route files
 const auth = require("./routes/auth");
 const campground = require("./routes/campgrounds")
+const booking = require("./routes/bookings")
 const app = express();
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 //app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocs));
@@ -61,7 +62,6 @@ app.use(xss());
 app.use(cors());
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/campground", campground);
-const booking = require("./routes/bookings")
 app.use("/api/v1/bookings", booking);
 app.use(cookieParser);
 

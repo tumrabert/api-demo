@@ -6,8 +6,11 @@ servers:
   - url: "http://localhost:5000/api/v1"
 
 security:
-  - userToken: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTJjZGEyYzkxMTJiYzgzMTc0YjFiMiIsImlhdCI6MTcxMjUwODMyMiwiZXhwIjoxNzE1MTAwMzIyfQ.eY_tf5w7IORKL2j4a97Kv0SD9CxlRBGHPB8mlBFXhsE"]
-  - adminToken: ["eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MjNmMzc0M2JjNTkzZjk5NDVjMzM2ZiIsImlhdCI6MTcxMzYzMjExNywiZXhwIjoxNzE2MjI0MTE3fQ.CFeHDnuq3uOVrFICSygh_8dGR_Ujr0sx6xdcvG-Curo"]
+  - userToken:
+      [
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY2MTJjZGEyYzkxMTJiYzgzMTc0YjFiMiIsImlhdCI6MTcxMjUwODMyMiwiZXhwIjoxNzE1MTAwMzIyfQ.eY_tf5w7IORKL2j4a97Kv0SD9CxlRBGHPB8mlBFXhsE",
+      ]
+  - adminToken: [""]
 tags:
   - name: Bookings
     description: The Bookings managing API
@@ -157,9 +160,22 @@ paths:
         "500":
           $ref: "#/components/responses/InternalServerResponse"
     post:
+      security:
+        - adminToken: []
       tags:
         - Campground
       summary: Create a new campground
+      requestBody:
+        required: true
+        content:
+          application/json:
+            examples:
+              tiw_campground:
+                value:
+                  name: tiw_own_campground
+                  address: 123 Phayathai Bangkok
+                  telephone_number: 09876543
+
       responses:
         "201":
           $ref: "#/components/responses/SingleCampgroundResponse"
@@ -203,8 +219,11 @@ paths:
         required: true
         content:
           application/json:
-            schema:
-              $ref: "#/components/schemas/Campground"
+            examples:
+              tiw_campground:
+                value:
+                  name: tiw_change_campground
+                  address: 123 Hwag Khawn Bangkok
       responses:
         "400":
           description: No update provided.
@@ -353,7 +372,11 @@ components:
               message:
                 type: string
   securitySchemes:
-    bearerAuth:
+    userToken:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    adminToken:
       type: http
       scheme: bearer
       bearerFormat: JWT
