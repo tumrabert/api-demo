@@ -97,8 +97,7 @@ exports.deleteBooking = async (req, res, next) => {
       return res.status(404).json({ success: false, message: "Booking not found" });
     }
     res.status(200).json({
-      success: true,
-      data: {},
+      success: true
     });
   } catch (error) {
     res.status(500).json({ success: false, message: "Cannot delete booking" });
