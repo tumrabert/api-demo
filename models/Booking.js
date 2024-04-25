@@ -5,13 +5,13 @@ const BookingSchema = new mongoose.Schema({
     type: [Date],
     validate: [arrayLimit, '{PATH} expects at least 1 date.']
   },
-  user: {
+  userID: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
   },
-  campground: {
-    type: mongoose.Schema.ObjectId,
+  campgroundID: {
+    type: String,
     ref: "Campground",
     required: true,
   },

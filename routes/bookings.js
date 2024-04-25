@@ -1,23 +1,26 @@
 const express = require("express");
-const { getBookings, getBooking, deleteBooking, updateBooking, createBooking } = require("../controllers/bookings");
+const { getBookings, getBooking, deleteBooking, updateBooking, createBooking,AdminGetBookings,AdminUpdateBooking,AdminDeleteBooking } = require("../controllers/bookings");
 const router = express.Router({ mergeParams: true });
 const { protect, authorization } = require("../middleware/auth");
-// router.route("/").get(protect,authorization('admin'), getBookings).delete(protect,authorization('admin'), deleteBooking).put(protect,authorization('admin'), updateBooking);
-// router.route("/:id").get(protect,getBooking).delete(protect, deleteBooking).put(protect, updateBooking);
+
+// Routes for admin
+router.route("/admin")
+  .get(protect, authorization('admin'), AdminGetBookings)
+
+router.route("/admin/:id")
+.put(protect, authorization('admin'), AdminUpdateBooking)
+.delete(protect, authorization('admin'), AdminDeleteBooking );
 
 // Routes for users
 router.route("/")
-  .get(protect, getBookings)
-  .post(protect, createBooking);
+  .post(protect, createBooking)
+  .get(protect, getBookings);
 
 router.route("/:id")
   .get(protect, getBooking)
   .put(protect, updateBooking)
   .delete(protect, deleteBooking);
 
-// Routes for admin
-router.route("/admin")
-  .get(protect, authorization('admin'), getBookings)
-  .put(protect, authorization('admin'), updateBooking)
-  .delete(protect, authorization('admin'), deleteBooking);
+
+
 module.exports = router;
