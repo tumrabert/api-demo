@@ -1,9 +1,9 @@
 const mysql = require("mysql");
 var connection = mysql.createPool({
-  host: "localhost",
-  user: "root",
+  host: "campground-db1.cn6uyci2itoi.us-west-2.rds.amazonaws.com",
+  user: "admin",
   password: "s2w1d1e0v5p0r3ac",
-  database: "sw_dev",
+  database: "campground_db",
 });
 
 module.exports = connection;
